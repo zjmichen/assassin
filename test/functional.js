@@ -2,16 +2,17 @@ var app = require('../app');
 var should = require('chai').should();
 var request = require('supertest');
 var User = require('../models/User');
+var Game = require('../models/Game');
 var fixtures = require('./fixtures');
 var mongoose = require('mongoose');
 
-describe('auth routes', function() {
+describe('routes', function() {
   var user;
 
   before(function(done) {
     mongoose.connect('mongodb://localhost/test');
     user = new User(fixtures.testUser);
-    done();
+    user.save(done);
   });
 
   after(function(done) {
@@ -27,6 +28,25 @@ describe('auth routes', function() {
         .expect(200)
         .end(done);
     });
+  });
+
+  describe('/games', function() {
+    var game;
+
+    before(function(done) {
+      game = new Game(fixtures.testGame);
+      game.save(done);
+    });
+
+    it('should add a player to a game', function(done) {
+      request(app)
+        .post('/games/' + game._id.toString())
+        .send({playerId: user._id.toString()})
+        .expect(200)
+        .expect('Player ' + user._id + ' joined game ' + game._id)
+        .end(done);
+    });
+
   });
 
 });
