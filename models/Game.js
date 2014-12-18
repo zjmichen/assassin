@@ -9,7 +9,7 @@ var GameSchema = Schema({
 GameSchema.method('addPlayer', function(player, done) {
   if (this.state === 'pending') {
     this.players.push(player);
-    done(null);
+    this.save(done);
   } else {
     done('Game in progress');
   }
@@ -18,7 +18,7 @@ GameSchema.method('addPlayer', function(player, done) {
 GameSchema.method('start', function(done) {
   if (this.state === 'pending') {
     this.state = 'playing';
-    done(null);
+    this.save(done);
   } else {
     done('Game has already started');
   }
@@ -26,7 +26,7 @@ GameSchema.method('start', function(done) {
 
 GameSchema.method('end', function(done) {
   this.state = 'done';
-  done(null);
+  this.save(done);
 });
 
 mongoose.model('Game', GameSchema);
