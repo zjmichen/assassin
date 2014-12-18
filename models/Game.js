@@ -15,6 +15,15 @@ GameSchema.method('addPlayer', function(player, done) {
   }
 });
 
+GameSchema.method('start', function(done) {
+  if (this.state === 'pending') {
+    this.state = 'playing';
+    done(null);
+  } else {
+    done('Game has already started');
+  }
+});
+
 mongoose.model('Game', GameSchema);
 var Game = mongoose.model('Game');
 module.exports = Game;
