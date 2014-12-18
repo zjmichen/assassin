@@ -24,6 +24,11 @@ GameSchema.method('start', function(done) {
   }
 });
 
+GameSchema.method('end', function(done) {
+  this.state = 'done';
+  done(null);
+});
+
 mongoose.model('Game', GameSchema);
 var Game = mongoose.model('Game');
 module.exports = Game;
