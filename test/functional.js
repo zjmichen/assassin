@@ -47,6 +47,16 @@ describe('routes', function() {
         .end(done);
     });
 
+    it('should create a new game', function(done) {
+      request(app)
+        .post('/games/')
+        .send({playerId: user._id.toString()})
+        .expect(200)
+        .end(function(err, res) {
+          should.not.exist(err);
+        });
+    });
+
   });
 
 });
