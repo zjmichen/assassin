@@ -54,6 +54,13 @@ describe('routes', function() {
         .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
+          Game.findById(res.id, function(err, game) {
+            should.not.exist(err);
+            should.exist(game);
+            game.should.not.equal(undefined);
+            game.players.should.contain(user._id.toString());
+            done();
+          });
         });
     });
 
