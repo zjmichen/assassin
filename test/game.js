@@ -25,6 +25,47 @@ describe('Game', function() {
         done();
       });
     });
+
+    it('should not add a player to a game in progress', function(done) {
+      game.state = 'playing';
+      game.addPlayer(user, function(err) {
+        err.should.equal('Game in progress');
+        done();
+      });
+    });
+  });
+
+  describe('#start', function() {
+    it('should change the game state to "playing"', function(done) {
+      game.state.should.equal('pending');
+      game.start(function(err) {
+        should.not.exist(err);
+        game.state.should.equal('playing');
+        done();
+      });
+    });
+
+    it('should error if the game is not pending', function(done) {
+      game.state.should.equal('pending');
+      game.start(function(err) {
+        should.not.exist(err);
+        game.start(function(err) {
+          err.should.equal('Game has already started');
+          done();
+        });
+      });
+    });
+  });
+
+  describe('#end', function() {
+    it('should change the game state to "done"', function(done) {
+      game.state = 'playing';
+      game.end(function(err) {
+        should.not.exist(err);
+        game.state.should.equal('done');
+        done();
+      });
+    });
   });
 
 });

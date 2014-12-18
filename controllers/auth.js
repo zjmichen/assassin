@@ -5,7 +5,6 @@ module.exports = {
   },
 
   addSession: function(req, res) {
-    console.log(req.body);
     req.login(req.body.user, function(err) {
       if (err) { return res.status(500).send(err); }
       res.send("Logged in");
