@@ -68,4 +68,23 @@ describe('Game', function() {
     });
   });
 
+  describe('@state', function() {
+    it('should be one of "pending", "playing", "done"', function(done) {
+      game.state.should.equal('pending');
+      game.state = 'playing';
+      game.save(function(err) {
+        should.not.exist(err);
+        game.state = 'done';
+        game.save(function(err) {
+          should.not.exist(err);
+          game.state = 'badstate';
+          game.save(function(err) {
+            err.errors.state.message.should.equal('Invalid game state');
+            done();
+          });
+        });
+      });
+    });
+  });
+
 });

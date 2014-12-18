@@ -31,4 +31,9 @@ GameSchema.method('end', function(done) {
 
 mongoose.model('Game', GameSchema);
 var Game = mongoose.model('Game');
+
+Game.schema.path('state').validate(function(val) {
+  return /pending|playing|done/.test(val);
+}, 'Invalid game state');
+
 module.exports = Game;
