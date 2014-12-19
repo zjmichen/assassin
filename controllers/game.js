@@ -15,7 +15,11 @@ module.exports = {
         game.addPlayer(player, function(err) {
           if (err) { return res.status(500).send(err); }
 
-          res.send("Player " + req.body.playerId + " joined game " + game._id);
+          if (req.accepts('json')) {
+            res.send(game);
+          } else {
+            res.status(406).end();
+          }
         });
       });
     });
