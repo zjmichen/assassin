@@ -17,7 +17,9 @@ describe('routes', function() {
   });
 
   after(function(done) {
-    mongoose.disconnect(done);
+    User.remove({}, function() {
+      mongoose.disconnect(done);
+    });
   });
 
   describe('/sessions', function() {
@@ -69,22 +71,16 @@ describe('routes', function() {
         });
     });
 
-    it.skip('should create a new game', function(done) {
+    it('should create a new game', function(done) {
       request(app)
         .post('/games/')
+        .set('Accept', 'application/json')
         .send({playerId: user._id.toString()})
         .expect(200)
         .end(function(err, res) {
-          should.not.exist(err);
-          console.log(err);
-          return done();
-          Game.findById(res.id, function(err, game) {
-            should.not.exist(err);
-            should.exist(game);
-            game.should.not.equal(undefined);
-            game.players.should.contain(user._id.toString());
-            done();
-          });
+          should.exist(res.body.players);
+          res.body.players.should.contain(user._id.toString());
+          done(err);
         });
     });
 

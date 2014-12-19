@@ -26,14 +26,11 @@ module.exports = {
   },
 
   create: function(req, res) {
-    console.log(req.user);
-    var game = new Game({ players: [req.user._id] });
+    var game = new Game();
+    game.players.push(req.body.playerId);
     game.save(function(err) {
-      console.log('creating');
-      if (err) { return res.status(500).send("Could not create game"); }
+      if (err) { return res.status(500).send(err); }
 
-      console.log('made a game:');
-      console.log(game);
       res.send(game);
     });
   }
