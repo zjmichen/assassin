@@ -19,6 +19,19 @@ module.exports = {
         });
       });
     });
+  },
+
+  create: function(req, res) {
+    console.log(req.user);
+    var game = new Game({ players: [req.user._id] });
+    game.save(function(err) {
+      console.log('creating');
+      if (err) { return res.status(500).send("Could not create game"); }
+
+      console.log('made a game:');
+      console.log(game);
+      res.send(game);
+    });
   }
 
 };

@@ -35,7 +35,14 @@ describe('routes', function() {
 
     before(function(done) {
       game = new Game(fixtures.testGame);
-      game.save(done);
+      game.save(function(err) {
+        if (err) { return done(err); }
+
+        request(app)
+          .post('/sessions')
+          .send({user: user})
+          .end(done);
+      });
     });
 
     it('should add a player to a game', function(done) {
@@ -54,6 +61,8 @@ describe('routes', function() {
         .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
+          console.log(err);
+          return done();
           Game.findById(res.id, function(err, game) {
             should.not.exist(err);
             should.exist(game);
