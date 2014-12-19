@@ -7,10 +7,11 @@ var fixtures = require('./fixtures');
 var mongoose = require('mongoose');
 
 describe('routes', function() {
-  var user;
+  var user, cookies;
 
   before(function(done) {
     mongoose.connect('mongodb://localhost/test');
+
     user = new User(fixtures.testUser);
     user.save(done);
   });
@@ -20,29 +21,39 @@ describe('routes', function() {
   });
 
   describe('/sessions', function() {
-    it('should add a session and log in a user', function(done) {
+    it('should log in a user', function(done) {
       request(app)
         .post('/sessions')
-        .send({user: user})
-        .expect('Logged in')
+        .set('Accept', 'application/json')
+        .send({id: user._id})
+        .expect('Content-Type', /json/)
         .expect(200)
-        .end(done);
+        .end(function(err, res) {
+          res.body._id.should.equal(user._id.toString());
+          cookies = res.headers['set-cookie'].pop().split(';')[0];
+          done(err);
+        });
+    });
+
+    it('should get the current user session', function(done) {
+      var req = request(app).get('/sessions');
+      req.cookies = cookies;
+      req.set('Accept', 'application/json')
+        .expect(200)
+        .end(function(err, res) {
+          should.exist(res.body._id);
+          res.body._id.should.equal(user._id.toString());
+          done(err);
+        });
     });
   });
 
-  describe('/games', function() {
+  describe.skip('/games', function() {
     var game;
 
     before(function(done) {
       game = new Game(fixtures.testGame);
-      game.save(function(err) {
-        if (err) { return done(err); }
-
-        request(app)
-          .post('/sessions')
-          .send({user: user})
-          .end(done);
-      });
+      game.save(done);
     });
 
     it('should add a player to a game', function(done) {
