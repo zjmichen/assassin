@@ -3,6 +3,7 @@ var should = require('chai').should();
 var request = require('supertest');
 var User = require('../models/User');
 var Game = require('../models/Game');
+var Assignment = require('../models/Assignment');
 var fixtures = require('./fixtures');
 var mongoose = require('mongoose');
 
@@ -82,6 +83,42 @@ describe('routes', function() {
           res.body.players.should.contain(user._id.toString());
           done(err);
         });
+    });
+
+    describe('/assignments', function() {
+      var assignment, target;
+
+      before(function(done) {
+        target = new User();
+        assignment = new Assignment();
+
+        target.save(function(err) {
+          if (err) { console.error(err); }
+          assignment.assassin = user._id;
+          assignment.target = target._id;
+          assignment.game = game._id;
+
+          assignment.save(done);
+        });
+      });
+
+      after(function(done) {
+        Assignment.remove({}, done);
+      });
+
+      it('should list the assignments for a game', function(done) {
+        request(app)
+          .get('/games/' + game._id + '/assignments')
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function(err, res) {
+            should.exist(res.body.gameId);
+            should.exist(res.body.assignments);
+            should.exist(res.body.assignments[0]);
+            res.body.assignments[0]._id.should.equal(assignment._id.toString());
+            done(err);
+          });
+      });
     });
 
   });
