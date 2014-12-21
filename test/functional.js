@@ -4,6 +4,7 @@ var request = require('supertest');
 var User = require('../models/User');
 var Game = require('../models/Game');
 var Assignment = require('../models/Assignment');
+var Invite = require('../models/Invite');
 var fixtures = require('./fixtures');
 var mongoose = require('mongoose');
 
@@ -82,6 +83,35 @@ describe('routes', function() {
           should.exist(res.body.players);
           res.body.players.should.contain(user._id.toString());
           done(err);
+        });
+    });
+
+    it('should create invites for a new game', function(done) {
+      request(app)
+        .post('/games')
+        .set('Accept', 'application/json')
+        .send({
+          playerId: user._id.toString(),
+          invites: [
+            'a@example.com',
+            'b@example.com'
+          ]
+        })
+        .expect(200)
+        .end(function(err, res) {
+          should.not.exist(err);
+          should.exist(res.body._id);
+
+          Invite.find({game: res.body._id}, function(err, invites) {
+            should.not.exist(err);
+            should.exist(invites);
+
+            invites.length.should.equal(2);
+            invites[0].email.should.equal('a@example.com');
+            invites[1].email.should.equal('b@example.com');
+
+            done();
+          });
         });
     });
 

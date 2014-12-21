@@ -1,6 +1,7 @@
 var Game = require('../models/Game');
 var User = require('../models/User');
 var Assignment = require('../models/Assignment');
+var Invite = require('../models/Invite');
 
 module.exports = {
 
@@ -32,7 +33,28 @@ module.exports = {
     game.save(function(err) {
       if (err) { return res.status(500).send(err); }
 
-      res.send(game);
+      if (req.body.invites) {
+        // convert emails into users
+        User.findOrCreateByEmail(req.body.invites, function(err, users) {
+          if (err) { res.status(500).send(err); }
+
+          // create the invites
+          Invite.create(users.map(function(user) {
+            return {
+              email: user.email,
+              game: game._id,
+              player: user._id
+            };
+          }), function(err, invites) {
+            if (err) { res.status(500).send(err); }
+
+            game.invites = invites;
+            res.send(game);
+          });
+        });
+      } else {
+        res.send(game);
+      }
     });
   },
 
