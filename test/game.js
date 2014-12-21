@@ -7,8 +7,11 @@ describe('Game', function() {
   var game, user;
 
   before(function(done) {
-    mongoose.connect('mongodb://localhost/test');
-    done();
+    mongoose.connect('mongodb://localhost/test', done);
+  });
+
+  after(function(done) {
+    mongoose.disconnect(done);
   });
 
   beforeEach(function(done) {
