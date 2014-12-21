@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var GameController = require('../controllers/game');
+var GameController = require('../controllers/GameController');
 
 router.post('/', GameController.create);
 router.post('/:gameId', GameController.addPlayer);
