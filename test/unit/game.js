@@ -1,5 +1,5 @@
-var Game = require('../models/Game');
-var User = require('../models/User');
+var Game = require('../../models/Game');
+var User = require('../../models/User');
 var mongoose = require('mongoose');
 var should = require('chai').should();
 
