@@ -12,6 +12,7 @@ var users = require('./routes/users');
 var sessions = require('./routes/sessions');
 var games = require('./routes/games');
 var invites = require('./routes/invites');
+var assignments = require('./routes/assignments');
 
 var app = express();
 
@@ -39,6 +40,7 @@ app.use('/users', users);
 app.use('/sessions', sessions);
 app.use('/games', games);
 app.use('/invites', invites);
+app.use('/assignments', assignments);
 
 passport.serializeUser(function(user, done) {
   done(null, user);
