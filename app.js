@@ -11,6 +11,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var sessions = require('./routes/sessions');
 var games = require('./routes/games');
+var invites = require('./routes/invites');
 
 var app = express();
 
@@ -37,6 +38,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/sessions', sessions);
 app.use('/games', games);
+app.use('/invites', invites);
 
 passport.serializeUser(function(user, done) {
   done(null, user);

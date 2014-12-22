@@ -1,5 +1,6 @@
 module.exports = {
   testUser: {
-    profile: {}
+    profile: {},
+    email: 'testUser@example.com'
   }
 };
