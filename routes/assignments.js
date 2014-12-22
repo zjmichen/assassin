@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var AssignmentController = require('../controllers/AssignmentController');
+var AuthController = require('../controllers/AuthController');
 
-router.post('/:assignmentId/report', AssignmentController.report);
-router.post('/:assignmentId/confirm', AssignmentController.confirm);
-router.post('/:assignmentId/reject', AssignmentController.reject);
+router.post('/:assignmentId/report', AuthController.loggedIn, AssignmentController.report);
+router.post('/:assignmentId/confirm', AuthController.loggedIn, AssignmentController.confirm);
+router.post('/:assignmentId/reject', AuthController.loggedIn, AssignmentController.reject);
 
 module.exports = router;

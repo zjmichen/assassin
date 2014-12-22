@@ -8,11 +8,23 @@ var Game = require('../../models/Game');
 var Assignment = require('../../models/Assignment');
 
 describe('/assignments', function() {
-  var user, game, assignment;
+  var user, game, assignment, cookies;
 
   before(function(done) {
     mongoose.connect('mongodb://localhost/test');
-    done();
+
+    user = new User(fixtures.testUser);
+    user.save(function(err) {
+      request(app)
+        .post('/sessions')
+        .set('Accept', 'application/json')
+        .send({id: user._id})
+        .expect('Content-Type', /json/)
+        .end(function(err, res) {
+          cookies = res.headers['set-cookie'].pop().split(';')[0];
+          done(err);
+        });
+    });
   });
 
   after(function(done) {
@@ -20,19 +32,16 @@ describe('/assignments', function() {
   });
 
   beforeEach(function(done) {
-    user = new User(fixtures.testUser);
     user2 = new User(fixtures.testUser2);
-    user.save(function(err) {
-      user2.save(function(err) {
-        game = new Game();
-        game.save(function(err) {
-          assignment = new Assignment({
-            game: game._id,
-            assassin: user._id,
-            target: user2._id
-          });
-          assignment.save(done);
+    user2.save(function(err) {
+      game = new Game();
+      game.save(function(err) {
+        assignment = new Assignment({
+          game: game._id,
+          assassin: user._id,
+          target: user2._id
         });
+        assignment.save(done);
       });
     });
   });
@@ -43,9 +52,9 @@ describe('/assignments', function() {
 
   describe('/report', function() {
     it('should mark the assignment as completed', function(done) {
-      request(app)
-        .post('/assignments/' + assignment._id + '/report')
-        .set('Accept', 'application/json')
+      var req = request(app).post('/assignments/' + assignment._id + '/report')
+      req.cookies = cookies;
+      req.set('Accept', 'application/json')
         .expect(200)
         .end(function(err) {
           should.not.exist(err);
@@ -64,9 +73,9 @@ describe('/assignments', function() {
       assignment.save(function(err) {
         should.not.exist(err);
 
-        request(app)
-          .post('/assignments/' + assignment._id + '/confirm')
-          .set('Accept', 'application/json')
+        var req = request(app).post('/assignments/' + assignment._id + '/confirm');
+        req.cookies = cookies;
+        req.set('Accept', 'application/json')
           .expect(200)
           .end(function(err) {
             should.not.exist(err);
@@ -86,9 +95,9 @@ describe('/assignments', function() {
       assignment.save(function(err) {
         should.not.exist(err);
 
-        request(app)
-          .post('/assignments/' + assignment._id + '/reject')
-          .set('Accept', 'application/json')
+        var req = request(app).post('/assignments/' + assignment._id + '/reject')
+        req.cookies = cookies;
+        req.set('Accept', 'application/json')
           .expect(200)
           .end(function(err) {
             should.not.exist(err);
