@@ -83,6 +83,19 @@ module.exports = {
         next(null, false);
       }
     });
+  },
+
+  userInGame: function(req, res, next) {
+    Game.findById(req.params.gameId, function(err, game) {
+      if (err) { return res.status(500).send(err); }
+      if (!game) { return res.status(404).end(); }
+
+      if (game.players.indexOf(req.user._id) === -1) {
+        res.status(403).end();
+      } else {
+        next();
+      }
+    });
   }
 
 };

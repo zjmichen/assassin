@@ -9,15 +9,26 @@ var fixtures = require('.././fixtures');
 var mongoose = require('mongoose');
 
 describe('/games', function() {
-  var user, game;
+  var user, game, cookies;
 
   before(function(done) {
     mongoose.connect('mongodb://localhost/test');
 
     user = new User(fixtures.testUser);
     user.save(function(err) {
-      game = new Game(fixtures.testGame);
-      game.save(done);
+      request(app)
+        .post('/sessions')
+        .set('Accept', 'application/json')
+        .send({id: user._id})
+        .expect('Content-Type', /json/)
+        .end(function(err, res) {
+          cookies = res.headers['set-cookie'].pop().split(';')[0];
+
+          game = new Game({
+            players: [user._id]
+          });
+          game.save(done);
+        });
     });
   });
 
@@ -30,35 +41,37 @@ describe('/games', function() {
   });
 
   it('should add a player to a game', function(done) {
-    request(app)
-      .post('/games/' + game._id.toString())
-      .set('Accept', 'application/json')
+    var req = request(app).post('/games/' + game._id.toString())
+    req.cookies = cookies;
+    req.set('Accept', 'application/json')
       .send({playerId: user._id.toString()})
       .expect(200)
       .end(function(err, res) {
+        should.not.exist(err);
         should.exist(res.body._id);
         res.body._id.should.equal(game._id.toString());
-        done(err);
+        done();
       });
   });
 
   it('should create a new game', function(done) {
-    request(app)
-      .post('/games/')
-      .set('Accept', 'application/json')
+    var req = request(app).post('/games');
+    req.cookies = cookies;
+    req.set('Accept', 'application/json')
       .send({playerId: user._id.toString()})
       .expect(200)
       .end(function(err, res) {
+        should.not.exist(err);
         should.exist(res.body.players);
         res.body.players.should.contain(user._id.toString());
-        done(err);
+        done();
       });
   });
 
   it('should create invites for a new game', function(done) {
-    request(app)
-      .post('/games')
-      .set('Accept', 'application/json')
+    var req = request(app).post('/games');
+    req.cookies = cookies;
+    req.set('Accept', 'application/json')
       .send({
         playerId: user._id.toString(),
         invites: [
@@ -106,9 +119,9 @@ describe('/games', function() {
     });
 
     it('should list the assignments for a game', function(done) {
-      request(app)
-        .get('/games/' + game._id + '/assignments')
-        .set('Accept', 'application/json')
+      var req = request(app).get('/games/' + game._id + '/assignments')
+      req.cookies = cookies;
+      req.set('Accept', 'application/json')
         .expect(200)
         .end(function(err, res) {
           should.exist(res.body.gameId);

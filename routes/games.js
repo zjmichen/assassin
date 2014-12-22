@@ -1,10 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var GameController = require('../controllers/GameController');
+var AuthController = require('../controllers/AuthController');
 
-router.post('/', GameController.create);
-router.post('/:gameId', GameController.addPlayer);
+router.post('/', AuthController.loggedIn, GameController.create);
+router.post('/:gameId', 
+  [AuthController.loggedIn, GameController.userInGame], GameController.addPlayer);
 
-router.get('/:gameId/assignments', GameController.getAssignments);
+router.get('/:gameId/assignments', 
+  [AuthController.loggedIn, GameController.userInGame], GameController.getAssignments);
 
 module.exports = router;
