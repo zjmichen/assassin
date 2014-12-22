@@ -80,4 +80,27 @@ describe('/assignments', function() {
     });
   });
 
+  describe('/reject', function() {
+    it('should mark a completed assignment as not completed', function(done) {
+      assignment.completed = true;
+      assignment.save(function(err) {
+        should.not.exist(err);
+
+        request(app)
+          .post('/assignments/' + assignment._id + '/reject')
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function(err) {
+            should.not.exist(err);
+            Assignment.findById(assignment._id, function(err, assignment) {
+              should.not.exist(err);
+              assignment.confirmed.should.equal(false);
+              assignment.completed.should.equal(false);
+              done();
+            });
+          });
+      });
+    });
+  });
+
 });
