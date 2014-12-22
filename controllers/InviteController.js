@@ -5,6 +5,7 @@ var GameController = require('./GameController');
 module.exports = {
 
   accept: function(req, res) {
+    if (!req.accepts('json')) { res.status(406).end(); }
     Invite.findById(req.params.inviteId)
         .populate('game')
         .exec(function(err, invite) {

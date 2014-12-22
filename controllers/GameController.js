@@ -6,6 +6,7 @@ var Invite = require('../models/Invite');
 module.exports = {
 
   addPlayer: function(req, res) {
+    if (!req.accepts('json')) { res.status(406).end(); }
     Game.findById(req.params.gameId, function(err, game) {
       if (err) { return res.status(500).send(err); }
       if (!game) { return res.status(404).send("Game not found"); }
@@ -17,17 +18,14 @@ module.exports = {
         game.addPlayer(player, function(err) {
           if (err) { return res.status(500).send(err); }
 
-          if (req.accepts('json')) {
-            res.send(game);
-          } else {
-            res.status(406).end();
-          }
+          res.send(game);
         });
       });
     });
   },
 
   create: function(req, res) {
+    if (!req.accepts('json')) { res.status(406).end(); }
     var game = new Game();
     game.players.push(req.body.playerId);
     game.save(function(err) {
@@ -59,17 +57,14 @@ module.exports = {
   },
 
   getAssignments: function(req, res) {
+    if (!req.accepts('json')) { res.status(406).end(); }
     Assignment.find({game: req.params.gameId}, function(err, assignments) {
       if (err) { return res.status(500).send(err); }
 
-      if (req.accepts('json')) {
-        res.send({
-          gameId: req.params.gameId,
-          assignments: assignments
-        });
-      } else {
-        res.status(406).end();
-      }
+      res.send({
+        gameId: req.params.gameId,
+        assignments: assignments
+      });
     });
   },
 
