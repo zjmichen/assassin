@@ -71,6 +71,23 @@ module.exports = {
         res.status(406).end();
       }
     });
+  },
+
+  checkIfReady: function(game, next) {
+    Invite.find({game: game._id, accepted: false })
+        .where('expires').gt(Date.now())
+        .exec(function(err, invites) {
+
+      if (err) { return next(err); }
+
+      if (invites.length === 0 && game.state === 'pending') {
+        game.start(function(err) {
+          next(err, true);
+        });
+      } else {
+        next(null, false);
+      }
+    });
   }
 
 };

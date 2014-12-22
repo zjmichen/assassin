@@ -5,9 +5,10 @@ var fixtures = require('.././fixtures');
 var mongoose = require('mongoose');
 var Invite = require('../../models/Invite');
 var User = require('../../models/User');
+var Game = require('../../models/Game');
 
 describe('/invites', function() {
-  var invite, user;
+  var invite, user, game;
 
   before(function(done) {
     mongoose.connect('mongodb://localhost/test');
@@ -21,16 +22,21 @@ describe('/invites', function() {
   beforeEach(function(done) {
     user = new User(fixtures.testUser);
     user.save(function(err) {
-      invite = new Invite({
-        email: user.email
-      });
+      game = new Game();
+      game.save(function(err) {
+        invite = new Invite({
+          game: game._id,
+          email: user.email
+        });
 
-      invite.save(done);
+        invite.save(done);
+      });
     });
   });
 
   afterEach(function(done) {
-    Invite.remove({}, done);
+    invite.remove({});
+    done();
   });
 
   describe('/invites/:inviteId/accept', function() {
@@ -48,6 +54,40 @@ describe('/invites', function() {
             done();
           });
         });
+    });
+
+    it('should start the game when all invites are accepted', function(done) {
+      var invite2 = new Invite({
+        game: game._id,
+        email: 'user2@example.com'
+      });
+
+      invite2.save(function(err) {
+        if (err) { return done(err); }
+
+        request(app)
+          .post('/invites/' + invite._id + '/accept')
+          .set('Accept', 'application/json')
+          .send({acceptCode: invite.acceptCode})
+          .expect(200)
+          .end(function(err) {
+            should.not.exist(err);
+
+            request(app)
+              .post('/invites/' + invite2._id + '/accept')
+              .set('Accept', 'application/json')
+              .send({acceptCode: invite2.acceptCode})
+              .expect(200)
+              .end(function(err) {
+                should.not.exist(err);
+
+                Game.findById(game._id, function(err, game) {
+                  game.state.should.equal('playing');
+                  done(err);
+                });
+              });
+          });
+      });
     });
   });
 });
