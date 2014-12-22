@@ -11,7 +11,7 @@ module.exports = {
       if (err) { return res.status(500).send(err); }
       if (!game) { return res.status(404).send("Game not found"); }
 
-      User.findById(req.body.playerId, function(err, player) {
+      User.findById(req.user._id, function(err, player) {
         if (err) { return res.status(500).send(err); }
         if (!player) { return res.status(404).send("Player not found"); }
 
@@ -27,7 +27,7 @@ module.exports = {
   create: function(req, res) {
     if (!req.accepts('json')) { res.status(406).end(); }
     var game = new Game();
-    game.players.push(req.body.playerId);
+    game.players.push(req.user._id);
     game.save(function(err) {
       if (err) { return res.status(500).send(err); }
 

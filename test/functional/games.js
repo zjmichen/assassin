@@ -44,7 +44,6 @@ describe('/games', function() {
     var req = request(app).post('/games/' + game._id.toString())
     req.cookies = cookies;
     req.set('Accept', 'application/json')
-      .send({playerId: user._id.toString()})
       .expect(200)
       .end(function(err, res) {
         should.not.exist(err);
@@ -58,7 +57,6 @@ describe('/games', function() {
     var req = request(app).post('/games');
     req.cookies = cookies;
     req.set('Accept', 'application/json')
-      .send({playerId: user._id.toString()})
       .expect(200)
       .end(function(err, res) {
         should.not.exist(err);
@@ -73,7 +71,6 @@ describe('/games', function() {
     req.cookies = cookies;
     req.set('Accept', 'application/json')
       .send({
-        playerId: user._id.toString(),
         invites: [
           'a@example.com',
           'b@example.com'
