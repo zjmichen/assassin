@@ -1,5 +1,12 @@
 extends layout
 
+block head
+  link(rel='stylesheet', href='/stylesheets/index.css')
+
 block content
-  h1= title
-  p Welcome to #{title}
+  .hero
+    .container
+      .row.title
+        .col-sm-12.col-md-8.col-md-offset-2
+          h1 Assassin
+          p.leader Kill them all
