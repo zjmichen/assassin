@@ -1,6 +1,8 @@
 .row {
   margin: 0px;
   padding: 24px 0px;
+  line-height: 1.5;
+  font-size: 1.5em;
 }
 
 h2 {
@@ -12,6 +14,18 @@ h2 {
   margin-bottom: 20px;
 }
 
+.well-photo {
+  border-radius: 12px;
+  box-shadow: inset 0px 0px 10px black;
+  background-size: contain;
+  width: 400px;
+  height: 400px;
+}
+
+.kill-example {
+  background-image: url('/images/kill_example.jpg');
+}
+
 .hero {
   background-image: url('/images/cover.jpg');
   background-size: cover;
@@ -19,6 +33,7 @@ h2 {
   background-position: center;
   box-shadow: inset 0px -10px 10px -10px black;
   height: 600px;
+  line-height: 1;
 
   .title {
     margin-top: 26px;
@@ -27,12 +42,12 @@ h2 {
 
   h1 {
     color: white;
-    font-size: 4em;
+    font-size: 56px;
   }
 
   .leader {
     margin-top: 40px;
-    font-size: 2.3em;
+    font-size: 32px;
     opacity: 0.6;
   }
 
@@ -49,8 +64,6 @@ h2 {
 .second {
 
   p {
-    line-height: 1.5;
-    font-size: 1.5em;
   }
 }
 
@@ -62,11 +75,17 @@ h2 {
   text-shadow: black 0px 0px 2px;
   color: #eee;
   line-height: 1.5;
-  box-shadow: inset 0px 10px 10px -10px black;
+  box-shadow: 
+    inset 0px  10px 10px -10px black,
+    inset 0px -10px 10px -10px black;
   padding: 48px 0px;
 
   ol {
     padding-left: 24px;
   }
+
+}
+
+.fourth {
 
 }
