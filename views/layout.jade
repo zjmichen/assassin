@@ -1,7 +1,11 @@
 doctype html
 html
   head
-    title= title
+    if title
+      title= title + " &middot; Assassin"
+    else
+      title Assassin &middot; Kill them all
+
     link(rel='icon', href='/images/favicon.ico')
     link(rel='stylesheet', href='/stylesheets/lib/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
