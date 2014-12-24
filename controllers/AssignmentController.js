@@ -66,6 +66,19 @@ module.exports = {
         res.send(assignment);
       }
     });
+  },
+
+  ownsAssignment: function(req, res, next) {
+    Assignment.findById(req.params.assignmentId, function(err, assignment) {
+      if (err) { return res.status(500).send(err); }
+      if (!assignment) { return res.status(404).end(); }
+
+      if (assignment.assassin.toString() !== req.user._id.toString()) {
+        res.status(403).end();
+      } else {
+        next();
+      }
+    });
   }
 
 };

@@ -24,8 +24,7 @@ describe('/assignments', function() {
           cookies = res.headers['set-cookie'].pop().split(';')[0];
           done(err);
         });
-    });
-  });
+    }); });
 
   after(function(done) {
     mongoose.disconnect(done);
@@ -41,7 +40,14 @@ describe('/assignments', function() {
           assassin: user._id,
           target: user2._id
         });
-        assignment.save(done);
+        assignment.save(function(err) {
+          assignment2 = new Assignment({
+            game: game._id,
+            assassin: user2._id,
+            taraget: user._id
+          });
+          assignment2.save(done);
+        });
       });
     });
   });
@@ -57,8 +63,19 @@ describe('/assignments', function() {
       .expect(200)
       .end(function(err, res) {
         should.not.exist(err);
-      res.body._id.should.equal(assignment._id.toString());
-      done();
+        res.body._id.should.equal(assignment._id.toString());
+        done();
+    });
+  });
+
+  it('should not fetch an assignment a user does not own', function(done) {
+    var req = request(app).get('/assignments/' + assignment2._id);
+    req.cookies = cookies;
+    req.set('Accept', 'application/json')
+      .expect(403)
+      .end(function(err, res) {
+        should.not.exist(err);
+        done();
     });
   });
 
