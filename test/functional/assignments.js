@@ -50,6 +50,18 @@ describe('/assignments', function() {
     Assignment.remove({}, done);
   });
 
+  it('should fetch an assignment', function(done) {
+    var req = request(app).get('/assignments/' + assignment._id);
+    req.cookies = cookies;
+    req.set('Accept', 'application/json')
+      .expect(200)
+      .end(function(err, res) {
+        should.not.exist(err);
+      res.body._id.should.equal(assignment._id.toString());
+      done();
+    });
+  });
+
   describe('/report', function() {
     it('should mark the assignment as completed', function(done) {
       var req = request(app).post('/assignments/' + assignment._id + '/report')

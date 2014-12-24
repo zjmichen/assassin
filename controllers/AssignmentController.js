@@ -2,6 +2,15 @@ var Assignment = require('../models/Assignment');
 
 module.exports = {
 
+  get: function(req, res) {
+    if (!req.accepts('json')) { return res.status(406).end(); }
+    Assignment.findById(req.params.assignmentId, function(err, assignment) {
+      if (err) { return res.status(500).send(err); }
+      if (!assignment) { return res.status(404).end(); }
+      res.send(assignment);
+    });
+  },
+
   report: function(req, res) {
     if (!req.accepts('json')) { return res.status(406).end(); }
     Assignment.findById(req.params.assignmentId, function(err, assignment) {
