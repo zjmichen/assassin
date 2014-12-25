@@ -2,6 +2,7 @@ extends layout
 
 block head
   link(rel='stylesheet', href='/stylesheets/index.css')
+  script(src='/javascripts/signup.js')
 
 block content
   .hero.row
@@ -14,7 +15,23 @@ block content
       .row
         .col-sm-12
           .start-button
-            a.btn.btn-lg.btn-default.disabled Coming Soon
+            button.btn.btn-lg.btn-default(type='button', data-toggle='modal', data-target='#emailModal')
+              | Coming Soon
+
+    #emailModal.modal.fade
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal')
+              span &times;
+            h4.modal-title Sign up for our newsletter
+          .modal-body
+            p Enter your email to be notified when Assassin is ready to play!
+            form#frmEmail
+              input#iptEmail(name='email', type='email', required)
+          .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal') Close
+            button#btnSignup.btn.btn-primary(type='submit', form='frmEmail') Sign up
 
   .second.row
     .container

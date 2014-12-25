@@ -15,10 +15,10 @@ router.post('/', function(req, res) {
       user.receiveNewsletter = true;
       user.save(function(err) {
         if (err) { return res.status(500).send(err); }
-        res.end();
+        res.json(user);
       });
     } else {
-      res.end();
+      res.json(user);
     }
   });
 });
