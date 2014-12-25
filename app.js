@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var passport = require('passport');
+var mongoose = require('mongoose');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -69,6 +70,10 @@ if (app.get('env') === 'development') {
       error: err
     });
   });
+
+  mongoose.connect('mongodb://localhost/dev');
+} else if (app.get('env') === 'production') {
+  mongoose.connect(process.env.MONGO_URI);
 }
 
 // production error handler

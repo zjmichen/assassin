@@ -3,7 +3,8 @@ var Schema = mongoose.Schema;
 
 var UserSchema = Schema({
   profile: Object,
-  email: String
+  email: String,
+  receiveNewsletter: { type: Boolean, default: false }
 });
 
 UserSchema.static('findOrCreateByEmail', function(emails, done) {
