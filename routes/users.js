@@ -10,16 +10,7 @@ router.post('/', function(req, res) {
   User.findOrCreateByEmail(emails, function(err, users) {
     if (err) { return res.status(500).send(err); }
 
-    if (req.query.emailSignup) {
-      var user = users[0];
-      user.receiveNewsletter = true;
-      user.save(function(err) {
-        if (err) { return res.status(500).send(err); }
-        res.json(user);
-      });
-    } else {
-      res.json(user);
-    }
+    res.json(user);
   });
 });
 
