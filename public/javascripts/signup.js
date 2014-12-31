@@ -3,10 +3,15 @@ $(document).ready(function() {
     evt.preventDefault();
     var email = evt.currentTarget.email.value;
 
-    $.post('/users?emailSignup=1', {
+    $.post('/mail/newsletter/signup', {
       email: email
     }, function(result) {
-      $('#emailModal').modal('hide');
+      $('#emailModal button').attr('disabled', 'disabled');
+
+      $('#emailModal .modal-body').html('<p>Thanks! You\'ll be notified when Assassin is ready!</p>');
+      window.setTimeout(function() {
+        $('#emailModal').modal('hide');
+      }, 2000);
     });
   });
 });
