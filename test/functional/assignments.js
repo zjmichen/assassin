@@ -1,3 +1,5 @@
+process.env.NODE_ENV = 'test';
+
 var app = require('../../app');
 var should = require('chai').should();
 var request = require('supertest');
@@ -6,6 +8,8 @@ var mongoose = require('mongoose');
 var User = require('../../models/User');
 var Game = require('../../models/Game');
 var Assignment = require('../../models/Assignment');
+
+app.set('env', 'test');
 
 describe('/assignments', function() {
   var user, game, assignment, cookies;
@@ -24,7 +28,8 @@ describe('/assignments', function() {
           cookies = res.headers['set-cookie'].pop().split(';')[0];
           done(err);
         });
-    }); });
+    }); 
+  });
 
   after(function(done) {
     mongoose.disconnect(done);
