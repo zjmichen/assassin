@@ -4,23 +4,17 @@ module.exports = {
 
   newsletterSignup: function(req, res) {
     if (!req.accepts('json')) { res.status(406).end(); }
-    User.findOne({email: req.body.email}, function(err, user) {
-      if (err) { return res.status(500).send(err); }
-      if (!user) {
-        return res.status(404).end();
-      }
 
-      if (user.receiveNewsletter === false) {
-        user.receiveNewsletter = true;
-        user.save(function(err) {
-          if (err) { return res.status(500).send(err); }
+    if (req.data.user.receiveNewsletter === false) {
+      req.data.user.receiveNewsletter = true;
+      req.data.user.save(function(err) {
+        if (err) { return res.status(500).send(err); }
 
-          res.end();
-        });
-      } else {
-        res.status(304).end();
-      }
-    });
+        res.end();
+      });
+    } else {
+      res.status(304).end();
+    }
   }
 
 };

@@ -16,14 +16,16 @@ describe('/mail', function() {
   });
 
   after(function(done) {
-    User.remove({_id: user._id}, function(err) {
-      mongoose.disconnect(done);
-    });
+    mongoose.disconnect(done);
   });
 
   beforeEach(function(done) {
     user = new User(fixtures.testUser);
     user.save(done);
+  });
+
+  afterEach(function(done) {
+    User.remove({}, done);
   });
 
   describe('/newsletter/signup', function() {
@@ -33,7 +35,7 @@ describe('/mail', function() {
         .set('Accept', 'application/json')
         .send({email: user.email})
         .expect(200)
-        .end(function(err) {
+        .end(function(err, res) {
           should.not.exist(err);
           User.findById(user._id, function(err, foundUser) {
             should.not.exist(err);
@@ -42,6 +44,24 @@ describe('/mail', function() {
             done();
           });
         });
+    });
+
+    it('should sign up a new user', function(done) {
+      request(app)
+        .post('/mail/newsletter/signup')
+        .set('Accept', 'application/json')
+        .send({email: 'newUser@example.com'})
+        .expect(200)
+        .end(function(err) {
+          should.not.exist(err);
+          User.findOne({email: 'newUser@example.com'}, function(err, user) {
+            should.not.exist(err);
+            user.email.should.equal(user.email);
+            user.receiveNewsletter.should.equal(true);
+            done();
+          });
+        });
+
     });
   });
 
