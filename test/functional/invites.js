@@ -37,8 +37,13 @@ describe('/invites', function() {
   });
 
   afterEach(function(done) {
-    invite.remove({});
-    done();
+    Invite.remove({}, function(err) {
+      User.remove({}, function(err) {
+        Game.remove({}, function(err) {
+          done();
+        });
+      });
+    });
   });
 
   describe('/invites/:inviteId/accept', function() {

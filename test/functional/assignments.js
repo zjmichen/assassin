@@ -32,7 +32,13 @@ describe('/assignments', function() {
   });
 
   after(function(done) {
-    mongoose.disconnect(done);
+    User.remove({}, function(err) {
+      Game.remove({}, function(err) {
+        Assignment.remove({}, function(err) {
+          mongoose.disconnect(done);
+        });
+      });
+    });
   });
 
   beforeEach(function(done) {

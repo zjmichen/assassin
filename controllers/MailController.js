@@ -10,14 +10,11 @@ module.exports = {
         return res.status(404).end();
       }
 
-      console.log(user);
-
       if (user.receiveNewsletter === false) {
         user.receiveNewsletter = true;
         user.save(function(err) {
           if (err) { return res.status(500).send(err); }
 
-          console.log(user);
           res.end();
         });
       } else {
