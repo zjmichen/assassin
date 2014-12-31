@@ -7,6 +7,30 @@ var UserSchema = Schema({
   receiveNewsletter: { type: Boolean, default: false }
 });
 
+UserSchema.static('findOrCreate', function(data, done) {
+  if (!data.email) { return done('No email given'); }
+  User.findOne({email: data.email}, function(err, user) {
+    if (err) { return done(err); }
+    if (!user) {
+      user = new User(data);
+      user.save(function(err) {
+        if (err) { return done(err); }
+        done(null, user);
+      });
+    } else {
+      if (!user.profile) {
+        user.profile = data.profile;
+        user.save(function(err) {
+          if (err) { return done(err); }
+          done(null, user);
+        });
+      } else {
+        done(null, user);
+      }
+    }
+  });
+});
+
 UserSchema.static('findOrCreateByEmail', function(emails, done) {
   User.find({}).where('email').in(emails).exec(function(err, users) {
     if (err) { return done(err); }

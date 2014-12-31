@@ -5,11 +5,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var passport = require('passport');
 var mongoose = require('mongoose');
+var passport = require('passport');
+var FacebookStrategy = require('passport-facebook').Strategy;
+var User = require('./models/User');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var auth = require('./routes/auth');
 var sessions = require('./routes/sessions');
 var games = require('./routes/games');
 var invites = require('./routes/invites');
@@ -39,18 +42,37 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/auth', auth);
 app.use('/sessions', sessions);
 app.use('/games', games);
 app.use('/invites', invites);
 app.use('/assignments', assignments);
 app.use('/mail', mail);
 
+passport.use(new FacebookStrategy({
+  clientID: process.env.FACEBOOK_APP_ID,
+  clientSecret: process.env.FACEBOOK_APP_SECRET,
+  callbackURL: process.env.SITE_URL + '/auth/facebook/callback'
+}, function(accessToken, refreshToken, profile, done) {
+  var email = profile.emails[0].value;
+  User.findOrCreate({
+    profile: profile,
+    email: email
+  }, function(err, user) {
+    if (err) { return done(err); }
+    done(null, user);
+  });
+}));
+
 passport.serializeUser(function(user, done) {
-  done(null, user);
+  done(null, user._id);
 });
 
 passport.deserializeUser(function(id, done) {
-  done(null, id);
+  User.findById(id, function(err, user) {
+    if (err) { return done(err); }
+    done(null, user);
+  });
 });
 
 /// catch 404 and forward to error handler

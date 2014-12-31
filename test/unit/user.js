@@ -24,6 +24,20 @@ describe('User', function() {
     User.remove({}, done);
   });
 
+  describe('findOrCreate', function() {
+    it('should create a new user with the info given', function(done) {
+      User.findOrCreate({
+        email: 'newUser@example.com', 
+        profile: {testData: 'asdf'}
+      }, function(err, user) {
+        should.not.exist(err);
+        user.email.should.equal('newUser@example.com');
+        user.profile.testData.should.equal('asdf');
+        done();
+      });
+    });
+  });
+
   describe('findOrCreateByEmail', function() {
 
     it('should find existing users', function(done) {
