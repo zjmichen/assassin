@@ -16,9 +16,7 @@ block content
         .col-sm-12
           .start-button
             button#emailButton.btn.btn-lg.btn-default(type='button', data-toggle='modal', data-target='#emailModal')
-              | Coming Soon
-          .login-button
-            a.btn.btn-lg.btn-default(href='/auth/facebook') Log in
+              | Request an Invite
 
     #emailModal.modal.fade
       .modal-dialog
@@ -26,11 +24,11 @@ block content
           .modal-header
             button.close(type='button', data-dismiss='modal')
               span &times;
-            h4.modal-title Sign up for our newsletter
+            h4.modal-title Request an Invite
           .modal-body
-            p Enter your email to be notified when Assassin is ready to play!
+            p Where can the Assassin King reach you?
             form#frmEmail
-              input#iptEmail(name='email', type='email', required)
+              input#iptEmail(name='email', type='email', required, placeholder='hattori@example.com')
           .modal-footer
             button.btn.btn-default(type='button', data-dismiss='modal') Close
             button#btnSignup.btn.btn-primary(type='submit', form='frmEmail') Sign up
@@ -39,7 +37,7 @@ block content
     .container
       .col-sm-12
         h2 Join the fiercest killers on Earth
-        p.subheading.text-muted.hidden-xs Everyone is born with a gift. Sometimes that gift is killing.
+        p.subheading.text-muted.hidden-xs Everyone is born with a gift. Sometimes that gift is murder.
 
         p 
           | Play the 
@@ -61,7 +59,7 @@ block content
     .container
       .col-xs-12.col-md-6
         h2 How to Kill
-        p Kill assigned target by taking a picture of their face. Photos must meet specific criteria:
+        p Kill your assigned target by taking a picture of their face. Photos must meet specific criteria:
 
         ul
           li Whites of the target's eyes must be visible
@@ -75,7 +73,7 @@ block content
   footer.footer.row
     .container
       .col-xs-12
-        | &copy; Copyright 2014 
+        | &copy; Copyright 2015 
         a(href='http://www.zackmichener.net/') Zack Michener
         span.pull-right
           a(href='/legal') Legal

@@ -6,9 +6,9 @@ $(document).ready(function() {
     $.post('/mail/newsletter/signup', {
       email: email
     }, function(result) {
-      $('#emailModal button').attr('disabled', 'disabled');
+      $('#btnSignup').attr('disabled', 'disabled');
 
-      $('#emailModal .modal-body').html('<p>Thanks! You\'ll be notified when Assassin is ready!</p>');
+      $('#emailModal .modal-body').html('<p>You will be summoned when Assassin is ready.</p>');
       window.setTimeout(function() {
         $('#emailModal').modal('hide');
       }, 2000);
