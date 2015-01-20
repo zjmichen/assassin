@@ -10,4 +10,8 @@ router.get('/legal', function(req, res) {
   res.render('legal', { title: 'Legal' });
 });
 
+router.get('/app', function(req, res) {
+  res.render('app/base');
+});
+
 module.exports = router;
