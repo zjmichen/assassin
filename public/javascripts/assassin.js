@@ -1,1 +1,2 @@
-angular.module('assassin', []);
+var app = angular.module('assassin', []);
+
