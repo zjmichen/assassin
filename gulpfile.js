@@ -5,7 +5,7 @@ var concat = require('gulp-concat');
 gulp.task('default', ['test']);
 
 gulp.task('test', function() {
-  return gulp.src('test/**/*.js', {read: false})
+  return gulp.src(['test/**/*.js', '!test/angular/*.js'], {read: false})
     .pipe(mocha());
 });
 
@@ -19,8 +19,3 @@ gulp.task('test:unit', function() {
     .pipe(mocha());
 });
 
-gulp.task('scripts', function() {
-  gulp.src('./frontend/src/*.js')
-    .pipe(concat('app.js'))
-    .pipe(gulp.dest('./public/javascripts/'));
-});
