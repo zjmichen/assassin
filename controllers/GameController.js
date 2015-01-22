@@ -2,6 +2,7 @@ var Game = require('../models/Game');
 var User = require('../models/User');
 var Assignment = require('../models/Assignment');
 var Invite = require('../models/Invite');
+var MailController = require('../controllers/MailController');
 
 module.exports = {
 
@@ -25,35 +26,57 @@ module.exports = {
   },
 
   create: function(req, res) {
-    if (!req.accepts('json')) { res.status(406).end(); }
-    var game = new Game();
-    game.players.push(req.user._id);
-    game.save(function(err) {
-      if (err) { return res.status(500).send(err); }
+    if (!req.accepts('json')) { return res.status(406).end(); }
 
-      if (req.body.invites) {
-        // convert emails into users
-        User.findOrCreateByEmail(req.body.invites, function(err, users) {
-          if (err) { res.status(500).send(err); }
+    if (!Array.isArray(req.body.players)) {
+      return res.status(400).send(new Error('Bad Request Format'));
+    }
 
-          // create the invites
-          Invite.create(users.map(function(user) {
-            return {
-              email: user.email,
-              game: game._id,
-              player: user._id
-            };
-          }), function(err, invites) {
-            if (err) { res.status(500).send(err); }
+    if (req.body.players.length < 2) {
+      return res.status(400).send(new Error('Too Few Players'));
+    }
 
-            game.invites = invites;
-            res.send(game);
-          });
+    var playerIds = req.body.players;
+    playerIds.push(req.user._id);
+
+    User.findOrCreateByEmail(playerIds, function(err, users) {
+      Game.create(playerIds, function(err, game) {
+        Invite.createFromUsers(users, game, function(err, invites) {
+          MailController.sendInvites(invites);
+
+          game.invites = invites;
+          res.send(game);
         });
-      } else {
-        res.send(game);
-      }
-    });
+      });
+    })
+
+
+    // game.save(function(err) {
+    //   if (err) { return res.status(500).send(err); }
+
+    //   if (req.body.invites) {
+    //     // convert emails into users
+    //     User.findOrCreateByEmail(req.body.invites, function(err, users) {
+    //       if (err) { res.status(500).send(err); }
+
+    //       // create the invites
+    //       Invite.create(users.map(function(user) {
+    //         return {
+    //           email: user.email,
+    //           game: game._id,
+    //           player: user._id
+    //         };
+    //       }), function(err, invites) {
+    //         if (err) { res.status(500).send(err); }
+
+    //         game.invites = invites;
+    //         res.send(game);
+    //       });
+    //     });
+    //   } else {
+    //     res.send(game);
+    //   }
+    // });
   },
 
   getAssignments: function(req, res) {
