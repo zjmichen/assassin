@@ -127,6 +127,10 @@ describe('/assignments', function() {
           });
       });
     });
+
+    it.skip('should assign the target\'s target to the assassin', function(done) {
+
+    });
   });
 
   describe('/reject', function() {
