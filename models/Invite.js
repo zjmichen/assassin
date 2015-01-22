@@ -10,6 +10,16 @@ var InviteSchema = Schema({
   expires: { type: Date, default: tomorrow }
 });
 
+InviteSchema.static('createFromUsers', function(users, game, done) {
+  Invite.create(users.map(function(user) {
+    return {
+      email: user.email,
+      game: game._id,
+      player: user._id
+    };
+  }), done);
+});
+
 function tomorrow() {
   var t = new Date();
   t.setDate(t.getDate() + 1);
