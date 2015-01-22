@@ -20,6 +20,23 @@ describe('Game', function() {
     done();
   });
 
+  describe('#create', function() {
+    var user1 = new User();
+    var user2 = new User();
+    var user3 = new User();
+
+    it('should create a new game with user IDs', function(done) {
+      Game.create([user1._id, user2._id, user3._id], function(err, game) {
+        should.not.exist(err);
+        game.players.length.should.equal(3);
+        game.players.should.contain(user1._id);
+        game.players.should.contain(user2._id);
+        game.players.should.contain(user3._id);
+        done();
+      });
+    });
+  });
+
   describe('#addPlayer', function() {
     it('should add a player to the game', function(done) {
       game.addPlayer(user, function(err) {

@@ -6,6 +6,13 @@ var GameSchema = Schema({
   players: [{ type: Schema.Types.ObjectId, ref: 'Player' }]
 });
 
+GameSchema.static('create', function(playerIds, done) {
+  var game = new Game({players: playerIds});
+  game.save(function(err) {
+    done(err, game);
+  });
+});
+
 GameSchema.method('addPlayer', function(player, done) {
   if (this.state === 'pending') {
     this.players.push(player);
