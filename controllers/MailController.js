@@ -15,6 +15,10 @@ module.exports = {
     } else {
       res.status(304).end();
     }
-  }
+  },
+
+  sendInvites: function(invites) {
+
+  },
 
 };
