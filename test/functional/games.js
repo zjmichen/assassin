@@ -75,7 +75,7 @@ describe('/games', function() {
 
   describe.skip('old tests', function() {
     it('should add a player to a game', function(done) {
-      var req = request(app).post('/games/' + game._id + '/players')
+      var req = request(app).post('/games/' + game._id + '/players');
       req.cookies = cookies;
       req.set('Accept', 'application/json')
         .expect(200)

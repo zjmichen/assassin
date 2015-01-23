@@ -48,7 +48,7 @@ module.exports = {
           res.send(game);
         });
       });
-    })
+    });
 
 
     // game.save(function(err) {
