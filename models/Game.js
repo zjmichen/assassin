@@ -7,34 +7,34 @@ var GameSchema = Schema({
 });
 
 GameSchema.static('create', function(playerIds, done) {
+  if (playerIds.length < 3) {
+    return done(new Error("Not enough players"));
+  }
+
   var game = new Game({players: playerIds});
   game.save(function(err) {
     done(err, game);
   });
 });
 
-GameSchema.method('addPlayer', function(player, done) {
-  if (this.state === 'pending') {
-    this.players.push(player);
-    this.save(done);
-  } else {
-    done('Game in progress');
-  }
-});
-
 GameSchema.method('start', function(done) {
-  if (this.state === 'pending') {
-    this.state = 'playing';
-    this.save(done);
-  } else {
-    done('Game has already started');
+  if (this.state === 'done') {
+    return done(new Error("Cannot start finished game"));
   }
+
+  this.state = 'playing';
+  this.save(done);
 });
 
-GameSchema.method('end', function(done) {
+GameSchema.method('stop', function(done) {
+  if (this.state === 'pending') {
+    return done(new Error("Cannot stop pending game"));
+  }
+
   this.state = 'done';
   this.save(done);
 });
+
 
 mongoose.model('Game', GameSchema);
 var Game = mongoose.model('Game');
