@@ -17,7 +17,10 @@ InviteSchema.static('createFromUsers', function(users, game, done) {
       game: game._id,
       player: user._id
     };
-  }), done);
+  }), function(err) {
+    // convert list of args into an array
+    done(err, Array.prototype.slice.apply(arguments, [1]));
+  });
 });
 
 function tomorrow() {

@@ -7,20 +7,26 @@ var should = require('chai').should();
 describe('Invite', function() {
   var user1, user2, game;
 
+  before(function(done) {
+    mongoose.connect('mongodb://localhost/test', done);
+  });
+
+  after(function(done) {
+    mongoose.disconnect(done);
+  });
+
   beforeEach(function(done) {
     game = new Game();
-    user1 = new User();
-    user2 = new User();
+    user1 = new User({email: "user1@example.com"});
+    user2 = new User({email: "user2@example.com"});
     done();
   });
 
   describe('#createFromUsers', function() {
     it('should create invites given some users', function(done) {
-      console.log('about to create');
-      Invite.createFromUsers([user1, user2], game, function(err, users) {
-        console.log('created');
+      Invite.createFromUsers([user1, user2], game, function(err, invites) {
         should.not.exist(err);
-        users.length.should.equal(2);
+        invites.length.should.equal(2);
         done();
       });
     });
