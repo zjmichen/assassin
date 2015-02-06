@@ -44,8 +44,12 @@ describe('/games', function() {
 
   describe('POST /games', function() {
     var userEmails = ['user1@example.com', 'user2@example.com'];
+    var users = [
+      new User({email: userEmails[0]}),
+      new User({email: userEmails[1]})
+    ];
 
-    it('should create a new game', function(done) {
+    it('should create a new game with emails', function(done) {
       var req = request(app).post('/games');
         req.cookies = cookies;
         req.set('Accept', 'application/json')
@@ -55,7 +59,22 @@ describe('/games', function() {
           should.not.exist(err);
           should.exist(res.body.players);
           res.body.players.length.should.equal(3);
-          res.body.players.should.contain(user._id);
+          res.body.players.should.contain(user._id.toString());
+          done();
+        });
+    });
+
+    it('should create a new game with user ids', function(done) {
+      var req = request(app).post('/games');
+        req.cookies = cookies;
+        req.set('Accept', 'application/json')
+        .send({ players: [users[0]._id, users[1]._id] })
+        .expect(200)
+        .end(function(err, res) {
+          should.not.exist(err);
+          should.exist(res.body.players);
+          res.body.players.length.should.equal(3);
+          res.body.players.should.contain(user._id.toString());
           done();
         });
     });
@@ -66,10 +85,7 @@ describe('/games', function() {
         req.set('Accept', 'application/json')
         .send({ invites: [userEmails[0]] })
         .expect(400)
-        .end(function(err, res) {
-          should.exist(err);
-          done();
-        });
+        .end(done);
     });
   });
 
