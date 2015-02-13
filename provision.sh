@@ -5,7 +5,7 @@ apt-get upgrade
 apt-get -y install vim zsh curl git build-essential redis-server redis-tools mongodb npm
 
 ln -s /usr/bin/nodejs /usr/bin/node
-npm install -g express-generator mocha gulp
+npm install -g express-generator mocha gulp bower
 
 su vagrant -c "ln -s /vagrant/app /home/vagrant/app"
 su vagrant -c "curl -L http://install.ohmyz.sh | sh"
