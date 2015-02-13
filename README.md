@@ -27,3 +27,20 @@ This is a project I started with two goals in mind:
 2. to focus on mobile-first design. 
 
 As I'm still finding how TDD precisely fits into my workflow, I've gravitated toward writing functional tests first, followed by any unit tests I think are necessary.
+
+Development is done in a Vagrant environment. Download it [here][0], and also [VirtualBox][1]. Then, from the project root, you can run:
+
+```
+vagrant up
+vagrant ssh
+cd app
+npm install
+source credentials.sh
+gulp test
+npm start
+```
+
+Then the app should be running, and viewable at <http://localhost:3000>.
+
+[0]: https://www.vagrantup.com/downloads.html
+[1]: https://www.virtualbox.org/wiki/Downloads
