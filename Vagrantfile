@@ -3,4 +3,5 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 3000, host: 3000
   config.vm.provision "shell", path: "provision.sh"
   config.ssh.forward_agent = true
+  config.vm.synced_folder "app", "/vagrant/home/app"
 end
