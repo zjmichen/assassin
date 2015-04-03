@@ -1,79 +1,46 @@
 extends layout
 
 block head
+  link(rel="stylesheet",href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css")
   link(rel='stylesheet', href='/stylesheets/index.css')
   script(src='/javascripts/signup.js')
 
 block content
-  .hero.row
+  .hero
     .container
-      .row.title
-        .col-sm-12.col-md-8.col-md-offset-2
+      .title
+        header
           h1 Assassin
-          p.leader Kill them all
+          p.leader Kill them all.
 
-      .row
-        .col-sm-12
-          .start-button
-            button#emailButton.btn.btn-lg.btn-default(type='button', data-toggle='modal', data-target='#emailModal')
-              | Request an Invite
+      .start-button
+        a(href="#"): button
+          i.fa.fa-facebook-official
+          |  Coming Soon
 
-    #emailModal.modal.fade
-      .modal-dialog
-        .modal-content
-          .modal-header
-            button.close(type='button', data-dismiss='modal')
-              span &times;
-            h4.modal-title Request an Invite
-          .modal-body
-            p Where can the Assassin King reach you?
-            form#frmEmail
-              input#iptEmail(name='email', type='email', required, placeholder='hattori@example.com')
-          .modal-footer
-            button.btn.btn-default(type='button', data-dismiss='modal') Close
-            button#btnSignup.btn.btn-primary(type='submit', form='frmEmail') Sign up
 
   .second.row
     .container
-      .col-sm-12
-        h2 Join the fiercest killers on Earth
-        p.subheading.text-muted.hidden-xs Everyone is born with a gift. Sometimes that gift is murder.
+      h2 Join the fiercest killers on Earth
+      p.subheading.text-muted.hidden-xs Everyone is born with a gift. Sometimes that gift is murder.
 
-        p 
-          | Play the 
-          a(href='http://en.wikipedia.org/wiki/Assassin_%28game%29', target='_blank') classic live-action game Assassin
-          | , but with a modern twist. Instead of eliminating players by touching them with objects or placing bombs, players are killed by "shooting" them with your camera. Play with your friends, earn points, and compete with players across the world.
+      p 
+        | Play the 
+        a(href='http://en.wikipedia.org/wiki/Assassin_%28game%29', target='_blank') classic live-action game Assassin
+        | , but with a modern twist. Instead of eliminating players by touching them with objects or placing bombs, players are killed by "shooting" them with your camera. Play with your friends, earn points, and compete with players across the world.
 
-  .third.row
+      h2 How to Play
+      ol
+        li Sign up and start a game with your friends
+        li Kill your assigned target by uploading a photo here
+        li When your kill is confirmed, you are assigned their target
+        li Confirm other players' kills for more points
+        li Continue until you're eliminated or you become the champion!
+
+
+  footer.row
     .container
-      .col-xs-12.col-sm-8.col-sm-offset-4.col-md-6.col-md-offset-6
-        h2 How to Play
-        ol
-          li Sign up and start a game with your friends
-          li Kill your assigned target by uploading a photo here
-          li When your kill is confirmed, you are assigned their target
-          li Confirm other players' kills for more points
-          li Continue until you're eliminated or you become the champion!
-
-  .fourth.row
-    .container
-      .col-xs-12.col-md-6
-        h2 How to Kill
-        p Kill your assigned target by taking a picture of their face. Photos must meet specific criteria:
-
-        ul
-          li Whites of the target's eyes must be visible
-          li Target cannot be looking directly at the camera (shields up!)
-
-        p Once you successfully shoot your target, upload the photo here for it to be confirmed by one of your friends. Remember to check here for new kills often!
-
-      .col-xs-12.col-md-6
-        .well-photo.kill-example.pull-right
-
-  footer.footer.row
-    .container
-      .col-xs-12
-        | &copy; Copyright 2015 
-        a(href='http://www.zackmichener.net/') Zack Michener
-        span.pull-right
-          a(href='/legal') Legal
+      | &copy; Copyright 2015 
+      a(href='http://www.zackmichener.net/') Zack Michener
+      span.pull-right
+        a(href='/legal') Legal
