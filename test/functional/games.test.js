@@ -56,7 +56,10 @@ describe('/games', function() {
         .send({ invites: userEmails })
         .expect(200)
         .end(function(err, res) {
-          should.not.exist(err);
+          if (res.error) {
+            throw new Error(res.error.text);
+          }
+
           should.exist(res.body.players);
           res.body.players.length.should.equal(3);
           res.body.players.should.contain(user._id.toString());

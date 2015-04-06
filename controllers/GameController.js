@@ -3,6 +3,7 @@ var User = require('../models/User');
 var Assignment = require('../models/Assignment');
 var Invite = require('../models/Invite');
 var MailController = require('../controllers/MailController');
+var util = require('../lib/util');
 
 module.exports = {
 
@@ -28,8 +29,10 @@ module.exports = {
   create: function(req, res) {
     if (!req.accepts('json')) { return res.status(406).end(); }
 
-    var playerIds = req.body.players || [];
-    var inviteEmails = req.body.invites || [];
+    // var playerIds = req.body.players || [];
+    // var inviteEmails = req.body.invites || [];
+    var playerIds = util.validArray(req.body.players);
+    var inviteEmails = util.validArray(req.body.invites);
     playerIds.push(req.user._id);
 
     User.findOrCreateByEmail(inviteEmails, function(err, newUsers) {
@@ -38,6 +41,8 @@ module.exports = {
       playerIds = playerIds.concat(newUsers.map(function(user) {
         return user._id;
       }));
+
+      console.log(playerIds);
 
       Game.create(playerIds, function(err, game) {
         if (err) { return res.status(400).send(err.message); }
