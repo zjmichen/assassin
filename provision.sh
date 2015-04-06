@@ -1,13 +1,11 @@
 #!/bin/sh
 
-apt-get update
-apt-get upgrade
-apt-get -y install vim zsh curl git build-essential redis-server redis-tools mongodb npm
-
-ln -s /usr/bin/nodejs /usr/bin/node
+curl -sL https://deb.nodesource.com/setup | sudo bash -
+apt-get -y install vim zsh git build-essential redis-server redis-tools mongodb nodejs
 npm install -g express-generator mocha gulp bower
 
-su vagrant -c "ln -s /vagrant/app /home/vagrant/app"
+update-alternatives --set editor /usr/bin/vim.basic
+
 su vagrant -c "curl -L http://install.ohmyz.sh | sh"
 chsh vagrant -s /usr/bin/zsh
 sed -i 's/robbyrussell/terminalparty/g' /home/vagrant/.zshrc
