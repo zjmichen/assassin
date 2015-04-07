@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var util = require('../lib/util');
 
 var UserSchema = Schema({
   profile: Object,
@@ -47,10 +48,10 @@ UserSchema.static('findOrCreateByEmail', function(emails, done) {
       }).map(function(email) {
         // convert to object for creation
         return {email: email};
-      }), 
+      }),
 
       function(err, newUsers) {
-        done(err, users.concat(newUsers)); 
+        done(err, users.concat(util.validArray(newUsers)));
       }
     );
   });
