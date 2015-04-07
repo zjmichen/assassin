@@ -29,8 +29,6 @@ module.exports = {
   create: function(req, res) {
     if (!req.accepts('json')) { return res.status(406).end(); }
 
-    // var playerIds = req.body.players || [];
-    // var inviteEmails = req.body.invites || [];
     var playerIds = util.validArray(req.body.players);
     var inviteEmails = util.validArray(req.body.invites);
     playerIds.push(req.user._id);
@@ -42,14 +40,12 @@ module.exports = {
         return user._id;
       }));
 
-      console.log(playerIds);
-
       Game.create(playerIds, function(err, game) {
         if (err) { return res.status(400).send(err.message); }
 
         Invite.createFromUsers(newUsers, game, function(err, invites) {
           MailController.sendInvites(invites);
-          
+
           game.invites = invites;
           res.send(game);
         });
