@@ -1,10 +1,17 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   padding: 0px;
   margin: 0px;
   font: 18px "Lucida Grande", Helvetica, Arial, sans-serif;
   line-height: 1.6;
   background-color: #fafafa;
-  box-sizing: border-box;
+}
+
+pre {
+  overflow: auto;
 }
 
 .container {
@@ -30,8 +37,42 @@ a:active {
   border: none;
 }
 
+a {
+  color: #3B4654;
+}
+
+a:hover {
+  color: #5A6A80;
+}
+
+a:visited {
+  color: #485466;
+}
+
 footer {
   background-color: #999;
   box-shadow: inset 0px 10px 10px -10px black;
   font-size: 1em;
+}
+
+.pull-right {
+  float: right;
+}
+
+header {
+  display: flex;
+  align-items: baseline;
+  background-color: #ddd;
+  box-shadow: inset 0px -10px 10px -10px black;
+
+  .logo {
+    flex-grow: 1;
+    font-size: 1.5em;
+  }
+
+  a.nav-item {
+    height: 100%;
+    display: block;
+    background: green;
+  }
 }

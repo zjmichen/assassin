@@ -1,9 +1,7 @@
 extends layout
 
 block head
-  link(rel="stylesheet",href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css")
   link(rel='stylesheet', href='/stylesheets/index.css')
-  script(src='/javascripts/signup.js')
 
 block content
   .hero
@@ -14,9 +12,8 @@ block content
           p.leader Kill them all.
 
       .start-button
-        a(href="#"): button
-          i.fa.fa-facebook-official
-          |  Coming Soon
+        a(href="/auth/facebook"): button
+          | Log in
 
 
   .second.row
@@ -24,8 +21,7 @@ block content
       h2 Join the fiercest killers on Earth
       p.subheading.text-muted.hidden-xs Everyone is born with a gift. Sometimes that gift is murder.
 
-      p 
-        | Play the 
+      p= 'Play the '
         a(href='http://en.wikipedia.org/wiki/Assassin_%28game%29', target='_blank') classic live-action game Assassin
         | , but with a modern twist. Instead of eliminating players by touching them with objects or placing bombs, players are killed by "shooting" them with your camera. Play with your friends, earn points, and compete with players across the world.
 
@@ -40,7 +36,7 @@ block content
 
   footer.row
     .container
-      | &copy; Copyright 2015 
+      | &copy; Copyright 2015&nbsp;
       a(href='http://www.zackmichener.net/') Zack Michener
       span.pull-right
         a(href='/legal') Legal

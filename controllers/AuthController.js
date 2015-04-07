@@ -2,7 +2,10 @@ module.exports = {
 
   loggedIn: function(req, res, next) {
     if (!req.user) {
-      res.status(401).end();
+      console.log(req.path);
+      // req.session.nextPath = req.
+      res.redirect('/auth/facebook');
+      // res.status(401).end();
     } else {
       next();
     }
