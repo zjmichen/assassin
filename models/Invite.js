@@ -17,9 +17,9 @@ InviteSchema.static('createFromUsers', function(users, game, done) {
       game: game._id,
       player: user._id
     };
-  }), function(err) {
+  }), function(err, invites) {
     // convert list of args into an array
-    done(err, Array.prototype.slice.apply(arguments, [1]));
+    done(err, invites);
   });
 });
 
@@ -30,7 +30,7 @@ function tomorrow() {
 }
 
 function createCode() {
-  
+
 }
 
 function validEmail(str) {
