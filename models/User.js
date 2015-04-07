@@ -49,15 +49,7 @@ UserSchema.static('findOrCreateByEmail', function(emails, done) {
         return {email: email};
       }), 
 
-      function(err) {
-        var args = arguments;
-        var keys = Object.keys(args);
-        keys.shift();
-
-        var newUsers = keys.map(function(key) {
-          return args[key];
-        });
-
+      function(err, newUsers) {
         done(err, users.concat(newUsers)); 
       }
     );
