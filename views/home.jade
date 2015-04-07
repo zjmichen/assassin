@@ -2,7 +2,15 @@ extends layout
 
 block content
   header
-    .logo Assassin
-    a.nav-item(href="/auth/logout") Log out
+    .logo 
+      a(href="/") Assassin
 
-  pre.container= user
+    nav
+      a(href="#") New game
+      a(href="/auth/logout") Log out
+
+    label(for="togglenav").mobile-button.mobile-only
+
+  input(type="checkbox", id="togglenav")
+  .content
+    pre.container= user
