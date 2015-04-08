@@ -63,7 +63,7 @@ footer {
 
 header {
   width: 100%;
-  height: 60px;
+  height: 3.3em;
   z-index: 0;
   display: flex;
   align-items: center;
@@ -100,10 +100,10 @@ header {
 }
 
 .mobile-button {
-  width: 60px;
-  height: 60px;
+  width: 3.3em;
+  height: 3.3em;
   background-image: url('data:image/jpg;base64,/9j/4AAQSkZJRgABAgAAZABkAAD/7AARRHVja3kAAQAEAAAAUAAA/+4ADkFkb2JlAGTAAAAAAf/bAIQAAgICAgICAgICAgMCAgIDBAMCAgMEBQQEBAQEBQYFBQUFBQUGBgcHCAcHBgkJCgoJCQwMDAwMDAwMDAwMDAwMDAEDAwMFBAUJBgYJDQsJCw0PDg4ODg8PDAwMDAwPDwwMDAwMDA8MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM/8AAEQgAYgBgAwERAAIRAQMRAf/EAHAAAQACAwEAAAAAAAAAAAAAAAAECAMFBwYBAQEBAAAAAAAAAAAAAAAAAAABAhAAAQMCAwMLBQEAAAAAAAAAAAIDBAEFEQYHEtIUITGR0ROTlFUWVhdB01QVlSIRAQEBAAAAAAAAAAAAAAAAAAARAf/aAAwDAQACEQMRAD8AtibAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABv4WVM03KK1Nt2W7rcIb212MuNDfdaXsqqlWytCK0rhWlaVwrzkEr0Nnb2dfP58n7YD0Nnb2dfP58n7YD0Nnb2dfP58n7YD0Nnb2dfP58n7YGgmwZ1tlOwrjDft8xnZ7aJJbU06jaTRSdpC6UrTGlaVpjTmKIoAAAAAALXaa6s5Myzkmy2S7S5DVwhcTxCG461pp2kl11OCqclf8AK6Gdwe6+d9O/zpfhXOoQPnfTv86X4VzqED5307/Ol+Fc6hA+d9O/zpfhXOoQVR1Kv1uzNna9Xu0uLdt83huHW4iqFV7OM00rFNeWn+kVLg8KUAAAAAAmNW64PtpdYgSHml47LjbS1JrhXCuFaUw5wMn6i6+WS+5c3QH6i6+WS+5c3QH6i6+WS+5c3QH6i6+WS+5c3QIbrLrDimn2lsuow2m3E1SqmNMaY0ry8wGMAAAAAAFxtKtQcmWPIVhtd2v8eFcIvFcRFcovaTtynlpxwTWnKlVKmdHQ/lfTv3VE6HNwQPlfTv3VE6HNwQPlfTv3VE6HNwQPlfTv3VE6HNwQU41Vu1uvmfb9dLTKRNt8rheHlN47KtiKyhWGNKV5FJrQuDnpQAAAAAAAAAAAAAAAAAAAC5uk96yNEyBYI94u1ijXFviuJYmPxkPpxlPVTtpcVRVMU1pWmP0M6Oieo9M/PcseKhbwD1Hpn57ljxULeAeo9M/PcseKhbwD1Hpn57ljxULeAplqxJtkvP8Af5Fnfiybc5wvDPw1IWwrCKzRWwputU1wVStK4fUuDnZQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAf/2Q==');
-  background-size: 60px;
+  background-size: 3.3em;
 
 }
 
@@ -111,19 +111,23 @@ header {
   display: none;
 }
 
-@media only screen and (max-width: 480px) {
+@media only screen and (max-device-width: 480px) {
+  body {
+    font-size: 3em;
+  }
+
   .mobile-hidden {
     display: none;
   }
 
   #togglenav:checked + .content {
-    top: 180px;
+    top: 8em;
   }
 
   header {
     nav {
       position: absolute;
-      top: 60px;
+      top: 3.3em;
       right: 0px;
       width: 100%;
       z-index: 100;
@@ -143,7 +147,7 @@ header {
 }
 
 
-@media only screen and (min-width: 481px) {
+@media only screen and (min-device-width: 481px) {
   .mobile-only {
     display: none;
   }
@@ -151,8 +155,8 @@ header {
 
 .content {
   position: relative;
-  top: 60px;
-  margin-bottom: 60px;
+  top: 3.3em;
+  margin-bottom: 3.3em;
   padding: 16px 0px;
   background-color: #fafafa;
   width: 100%;
