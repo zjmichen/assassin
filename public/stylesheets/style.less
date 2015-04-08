@@ -4,6 +4,7 @@
 
 body {
   padding: 0px;
+  padding-bottom: 3.3em;
   margin: 0px;
   font: 18px "Lucida Grande", Helvetica, Arial, sans-serif;
   line-height: 1.6;
@@ -12,6 +13,10 @@ body {
 
 pre {
   overflow: auto;
+}
+
+ol {
+  padding-left: 2.2em;
 }
 
 .container {
@@ -47,14 +52,6 @@ a:hover {
 
 a:visited {
   color: #485466;
-}
-
-footer {
-  position: fixed;
-  bottom: 0px;
-  width: 100%;
-  z-index: -1;
-  font-size: 1em;
 }
 
 .pull-right {
@@ -113,7 +110,7 @@ header {
 
 @media only screen and (max-device-width: 480px) {
   body {
-    font-size: 3em;
+    font-size: 2em;
   }
 
   .mobile-hidden {
@@ -121,7 +118,7 @@ header {
   }
 
   #togglenav:checked + .content {
-    top: 8em;
+    top: 10.2em;
   }
 
   header {
@@ -141,9 +138,27 @@ header {
         border-radius: 0px;
         display: block;
         width: 100%;
+        font-size: 1.5em;
       }
     }
   }
+
+  .container {
+    max-width: none;
+    padding: 1em 2em;
+  }
+}
+
+.text-muted {
+  color: #888;
+}
+
+h1,h2,h3,h4,h5,h6 + .subheading {
+  margin-bottom: 0px;
+}
+
+.subheading {
+  margin-top: 0px;
 }
 
 
@@ -156,10 +171,27 @@ header {
 .content {
   position: relative;
   top: 3.3em;
-  margin-bottom: 3.3em;
   padding: 16px 0px;
+  margin-bottom: 3.3em;
   background-color: #fafafa;
   width: 100%;
   box-shadow: 0px 0px 10px 0px black;
   transition: top 200ms;
+}
+
+footer {
+  width: 100%;
+  z-index: -1;
+  font-size: 1em;
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    .copyright {
+      flex-grow: 1;
+    }
+  }
+
 }
