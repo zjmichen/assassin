@@ -4,6 +4,12 @@ const logger = require('morgan');
 const favicon = require('serve-favicon');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const webpack = require('webpack');
+const wpConfig = require('../webpack.config');
+const wpDevMiddleware = require('webpack-dev-middleware');
+const wpHotMiddleware = require('webpack-hot-middleware');
+
+const compiler = webpack(wpConfig);
 
 const routes = require('./routes/index');
 
@@ -17,7 +23,16 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
+if (app.get('env') === 'production') {
+  app.use(express.static(path.join(__dirname, 'public')));
+} else {
+  app.use(wpDevMiddleware(compiler, {
+    noInfo: true,
+    publicPath: wpConfig.output.publicPath
+  }));
+  app.use(wpHotMiddleware(compiler));
+}
 
 app.use('/', routes);
 

@@ -5,6 +5,7 @@
   "scripts": {
     "lint": "eslint src --ext=js --ext=jsx",
     "start": "node ./src/bin/www",
+    "dev": "webpack-dev-server --inline --hot --port 3000",
     "build": "webpack"
   },
   "dependencies": {
@@ -15,6 +16,8 @@
     "express": "~4.13.1",
     "jade": "~1.11.0",
     "morgan": "~1.6.1",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {
@@ -26,9 +29,18 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-2": "^6.5.0",
+    "css-loader": "^0.23.1",
     "eslint": "^2.10.2",
     "eslint-plugin-react": "^5.1.1",
-    "react": "^15.1.0",
-    "webpack": "^1.13.1"
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.4.1",
+    "redux": "^3.5.2",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.1",
+    "webpack-dev-middleware": "^1.6.1",
+    "webpack-dev-server": "^1.14.1",
+    "webpack-hot-middleware": "^2.10.0"
   }
 }
