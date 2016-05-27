@@ -3,6 +3,7 @@ var webpack = require('webpack');
 var babelPresets = ['es2015', 'react', 'stage-2'];
 var plugins = [];
 var output = {};
+var entry = ['./src/app/main.jsx'];
 
 if (process.env.NODE_ENV === 'production') {
   plugins = [
@@ -12,7 +13,7 @@ if (process.env.NODE_ENV === 'production') {
 
   output = {
     filename: 'app.js',
-    path: __dirname + 'src/public/',
+    path: './src/public/',
     publicPath: '/'
   };
 } else {
@@ -28,13 +29,12 @@ if (process.env.NODE_ENV === 'production') {
     path: '/',
     publicPath: 'http://localhost:3000/'
   };
+
+  entry.push('webpack-hot-middleware/client');
 }
 
 module.exports = {
-  entry: [
-    './src/app/main.jsx',
-    'webpack-hot-middleware/client'
-  ],
+  entry: entry,
   output: output,
   module: {
     loaders: [
