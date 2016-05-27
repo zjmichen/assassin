@@ -2,12 +2,19 @@ var webpack = require('webpack');
 
 var babelPresets = ['es2015', 'react', 'stage-2'];
 var plugins = [];
+var output = {};
 
 if (process.env.NODE_ENV === 'production') {
   plugins = [
     new webpack.optimize.UglifyJsPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin()
   ];
+
+  output = {
+    filename: 'app.js',
+    path: __dirname + 'src/public/',
+    publicPath: '/'
+  };
 } else {
   babelPresets = ['es2015', 'react', 'react-hmre', 'stage-2'];
   plugins = [
@@ -15,6 +22,12 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
   ];
+
+  output = {
+    filename: 'app.js',
+    path: '/',
+    publicPath: 'http://localhost:3000/'
+  };
 }
 
 module.exports = {
@@ -22,11 +35,7 @@ module.exports = {
     './src/app/main.jsx',
     'webpack-hot-middleware/client'
   ],
-  output: {
-    filename: 'app.js',
-    path: '/',
-    publicPath: 'http://localhost:3000/'
-  },
+  output: output,
   module: {
     loaders: [
       {

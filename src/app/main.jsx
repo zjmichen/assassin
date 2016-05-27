@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducers from './reducers';
 
+import './styles/base.less';
 import LandingPage from './components/LandingPage';
 
 const store = createStore(reducers);

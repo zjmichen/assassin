@@ -24,15 +24,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-if (app.get('env') === 'production') {
-  app.use(express.static(path.join(__dirname, 'public')));
-} else {
+if (app.get('env') !== 'production') {
   app.use(wpDevMiddleware(compiler, {
     noInfo: true,
     publicPath: wpConfig.output.publicPath
   }));
   app.use(wpHotMiddleware(compiler));
 }
+
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.use('/', routes);
 

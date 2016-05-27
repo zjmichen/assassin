@@ -5,7 +5,6 @@
   "scripts": {
     "lint": "eslint src --ext=js --ext=jsx",
     "start": "node ./src/bin/www",
-    "dev": "webpack-dev-server --inline --hot --port 3000",
     "build": "webpack"
   },
   "dependencies": {
