@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "eslint src --ext=js --ext=jsx",
     "start": "node ./src/bin/www",
-    "build": "webpack"
+    "build": "NODE_ENV=production webpack"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
