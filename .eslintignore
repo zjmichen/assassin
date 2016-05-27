@@ -1,0 +1,5 @@
+node_modules/**
+bin/**
+bld/**
+js/app.js
+WinJS/**

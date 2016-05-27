@@ -2,7 +2,7 @@
 
 curl -sL https://deb.nodesource.com/setup | sudo bash -
 apt-get -y install vim zsh git build-essential redis-server redis-tools mongodb nodejs
-npm install -g express-generator mocha gulp bower
+npm install -g express-generator
 
 update-alternatives --set editor /usr/bin/vim.basic
 
