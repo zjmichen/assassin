@@ -10,8 +10,11 @@ const wpDevMiddleware = require('webpack-dev-middleware');
 const wpHotMiddleware = require('webpack-hot-middleware');
 
 const compiler = webpack(wpConfig);
+const mongoose = require('mongoose');
+const debug = require('debug')('src:server');
 
 const routes = require('./routes/index');
+const auth = require('./routes/auth');
 
 const app = express();
 
@@ -24,18 +27,34 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-if (app.get('env') !== 'production') {
+if (app.get('env') === 'production') {
+  mongoose.connect(process.env.MONGO_URI, function(err) {
+    if (err) return debug(err);
+  });
+} else {
+  // configure webpack dev server with hot module replacement
+  const webpack = require('webpack');
+  const wpConfig = require('../webpack.config');
+  const wpDevMiddleware = require('webpack-dev-middleware');
+  const wpHotMiddleware = require('webpack-hot-middleware');
+  const compiler = webpack(wpConfig);
+  
   app.use(wpDevMiddleware(compiler, {
     noInfo: true,
     publicPath: wpConfig.output.publicPath
   }));
   app.use(wpHotMiddleware(compiler));
+
+  // db setup
+  mongoose.connect('mongodb://localhost/dev');
 }
+
+mongoose.Promise = global.Promise;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 app.use('/', routes);
+app.use('/auth', auth);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
