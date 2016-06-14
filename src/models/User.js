@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const UserSchema = Schema({
-  email: String
+  profile: Object
 });
 
-UserSchema.statc('findOrCreate', (email, profile) => {
+UserSchema.static('findOrCreate', (email, profile) => {
   if (!email) return Promise.reject(new Error('no email given'));
 
   User.findOne({email})
@@ -19,6 +19,10 @@ UserSchema.statc('findOrCreate', (email, profile) => {
         return Promise.resolve(user);
       }
     });
+});
+
+UserSchema.static('findByEmail', (email) => {
+  return User.findOne({ 'profile.emails': email });
 });
 
 mongoose.model('User', UserSchema);

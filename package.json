@@ -5,7 +5,8 @@
   "scripts": {
     "lint": "eslint src --ext=js --ext=jsx",
     "start": "node ./src/bin/www",
-    "build": "webpack"
+    "build": "webpack",
+    "test": "mocha --compilers js:babel-core/register"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -30,6 +31,8 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-2": "^6.5.0",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^5.3.0",
     "css-loader": "^0.23.1",
     "eslint": "^2.10.2",
     "eslint-plugin-react": "^5.1.1",
@@ -40,6 +43,7 @@
     "react-router": "^2.4.1",
     "redux": "^3.5.2",
     "sinon": "^1.17.4",
+    "sinon-as-promised": "^4.0.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1",
